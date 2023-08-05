@@ -35,4 +35,7 @@ public interface EmployeeMapper {
      * @return
      */
     void statusAndStop(Employee employee);
+
+    @Select("select * from employee where id = #{id};")
+    Employee getByIdEmp(Long id);
 }

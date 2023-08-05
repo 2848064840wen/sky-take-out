@@ -49,6 +49,7 @@ public class EmployeeController {
         Employee employee = employeeService.login(employeeLoginDTO);
 
         // 判断账户的状态
+        // TODO 判断账户状态，来是否登录成功
         if(employee.getStatus() == 1){
             // 启用状态
         }else{
@@ -131,6 +132,36 @@ public class EmployeeController {
 
         log.info("账户状态: {}  账户id:  {}" , status,id);
         employeeService.statusAndStop(status,id);
+
+        return Result.success();
+    }
+
+
+    /**
+     * 根据id查询员工
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工")
+    public Result<Employee> getByIdEmp(@PathVariable Long id){
+
+        log.info("查询员工id为:  {}",id);
+        Employee employee  = employeeService.getByIdEmp(id);
+
+        return Result.success(employee);
+    }
+
+    /**
+     * 修改员工信息
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改员工信息")
+    public Result updateEmp(@RequestBody EmployeeDTO employeeDTO){
+
+        log.info("修改员工信息: {}",employeeDTO);
+        employeeService.updateEmp(employeeDTO);
 
         return Result.success();
     }
