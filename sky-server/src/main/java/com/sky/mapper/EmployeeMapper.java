@@ -15,4 +15,9 @@ public interface EmployeeMapper {
     @Select("select * from employee where username = #{username}")
     Employee getByUsername(String username);
 
+    /**
+     * 添加用户
+     * @param employee
+     */
+    void addEmp(Employee employee);
 }
