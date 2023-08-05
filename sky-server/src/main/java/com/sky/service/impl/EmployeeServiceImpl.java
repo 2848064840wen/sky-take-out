@@ -1,16 +1,20 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
 import com.sky.constant.PasswordConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
+import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -68,6 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      * 添加员工
+     *
      * @param employeeDTO
      */
     @Override
@@ -76,7 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
 
         // 使用工具类进行属性拷贝
-        BeanUtils.copyProperties(employeeDTO,employee);
+        BeanUtils.copyProperties(employeeDTO, employee);
         // 设置额外的属性
 
         // 设置账号的状态
@@ -98,6 +104,47 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // 添加到数据库
         employeeMapper.addEmp(employee);
+    }
+
+
+    /**
+     * 员工的分页查询
+     *
+     * @param employeePageQueryDTO
+     * @return
+     */
+    @Override
+    public PageResult pagingSelect(EmployeePageQueryDTO employeePageQueryDTO) {
+
+        // 开始分页
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+
+        Page<Employee> page = employeeMapper.pagQuery(employeePageQueryDTO);
+
+        // 获取总记录数
+        long total = page.getTotal();
+        // 获取分页后的结果
+        List<Employee> result = page.getResult();
+
+        return new PageResult(total, result);
+    }
+
+    /**
+     * 账户的启动和禁用
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    @Override
+    public void statusAndStop(Integer status, Long id) {
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+
+        // 修改员工账户信息
+        employeeMapper.statusAndStop(employee);
     }
 
 }
