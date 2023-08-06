@@ -2,7 +2,6 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
@@ -16,7 +15,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -70,14 +68,6 @@ public class CategoryServiceImpl implements CategoryService {
         // 分类状态
         category.setStatus(0);
 
-        // 更改创建时间
-        category.setCreateTime(LocalDateTime.now());
-        category.setUpdateTime(LocalDateTime.now());
-
-        // 创建人和修改人
-        category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
-
         // 根据菜品分类
         if (category.getType() == 1) {
             dishMapper.isCuisineCategory(category);
@@ -98,8 +88,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category ca = Category.builder()
                 .status(status)
                 .id(id)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
                 .build();
 
         categoryMapper.updateCategory(ca);
@@ -117,9 +105,6 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
 
         BeanUtils.copyProperties(categoryDTO,category);
-
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
 
         categoryMapper.updateCategory(category);
 

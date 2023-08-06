@@ -1,8 +1,11 @@
 package com.sky.mapper;
 
 import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.enumeration.OperationType;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
@@ -19,12 +22,13 @@ public interface CategoryMapper {
      * 修改 分类
      * @param ca
      */
+    @AutoFill(value = OperationType.UPDATE)
     void updateCategory(Category ca);
 
     /**
      * 删除分类
      * @param id
      */
-    @Update("delete from category where id = #{id};")
+    @Delete("delete from category where id = #{id};")
     void deleteCategory(Integer id);
 }
