@@ -8,4 +8,16 @@
         values ( null, #{type}, #{name}, #{sort}, #{status}, #{createTime}
                , #{updateTime}, #{createUser}, #{updateUser})
     </insert>
+
+    <!--查询菜品管理分页-->
+    <select id="pageQuery" resultType="com.sky.entity.Dish">
+        select *
+        from dish
+        <where>
+            <if test="name != null and name != ''">name = #{name}</if>
+            <if test="categoryId != null">and category_id = #{categoryId}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
+        group by name
+    </select>
 </mapper>

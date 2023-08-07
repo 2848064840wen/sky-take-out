@@ -7,7 +7,10 @@ import com.sky.entity.Category;
 import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+
+import java.util.List;
 
 @Mapper
 public interface CategoryMapper {
@@ -31,4 +34,7 @@ public interface CategoryMapper {
      */
     @Delete("delete from category where id = #{id};")
     void deleteCategory(Integer id);
+
+    @Select("select * from category where type = #{type}")
+    List<Category> getByid(Integer type);
 }
