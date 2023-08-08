@@ -41,13 +41,14 @@ public class DishController {
 
     /**
      * 添加菜品
+     *
      * @param dishDTO
      * @return
      */
     @PostMapping
     @ApiOperation("添加菜品")
-    public Result andDish(@RequestBody DishDTO dishDTO){
-        log.info("添加菜品 :   {}",dishDTO);
+    public Result andDish(@RequestBody DishDTO dishDTO) {
+        log.info("添加菜品 :   {}", dishDTO);
 
         dishService.andDish(dishDTO);
 
@@ -57,12 +58,13 @@ public class DishController {
 
     /**
      * 删除一条或多条菜品
+     *
      * @return
      */
     @DeleteMapping
     @ApiOperation("删除一条或多条菜品")
-    public Result deleteAllIsOneDish(@RequestParam List<Long> ids){
-        log.info("删除的id ：  {} ",ids);
+    public Result deleteAllIsOneDish(@RequestParam List<Long> ids) {
+        log.info("删除的id ：  {} ", ids);
 
         dishService.deleteAllIsOneDish(ids);
         return Result.success();
@@ -70,28 +72,63 @@ public class DishController {
 
     /**
      * 根据id查询菜品
+     *
      * @param id
      * @return
      */
     @GetMapping("/{id}")
     @ApiOperation("根据id查询菜品")
-    public Result<DishVO> getById(@PathVariable Long id){
+    public Result<DishVO> getById(@PathVariable Long id) {
         DishVO dishVO = dishService.getById(id);
-        log.info("根据id查询菜品 查询到的数据 : {}",dishVO);
+        log.info("根据id查询菜品 查询到的数据 : {}", dishVO);
         return Result.success(dishVO);
     }
 
     /**
      * 修改菜品
+     *
      * @return
      */
 
     @PutMapping
     @ApiOperation("修改菜品")
-    public Result putByIdDish(@RequestBody DishDTO dishDTO){
+    public Result putByIdDish(@RequestBody DishDTO dishDTO) {
 
         dishService.putByIdDish(dishDTO);
 
         return Result.success();
     }
+
+    /**
+     * 菜品起售，停售
+     */
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售，停售")
+    public Result dishStartStop(@PathVariable Integer status, Long id) {
+
+        log.info("菜品状态 : {}  , 菜品id :  {}", status, id);
+
+        dishService.dishStartStop(status, id);
+
+        return Result.success();
+    }
+
+    /**
+     *根据菜品类型查询
+     */
+
+    @GetMapping("/list")
+    @ApiOperation("根据菜品类型查询")
+    public Result<List<Dish>> getByCategoryId(Long categoryId){
+        log.info("菜品分类id  : {}",categoryId);
+
+        List<Dish> list =  dishService.getByCategoryId(categoryId);
+
+        return Result.success(list);
+    }
+
+
+
+
 }

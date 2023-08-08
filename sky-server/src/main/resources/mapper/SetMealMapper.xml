@@ -9,4 +9,59 @@
         values ( null, #{type}, #{name}, #{sort}, #{status}, #{createTime}
                , #{updateTime}, #{createUser}, #{updateUser})
     </insert>
+
+    <!--新增套餐-->
+    <insert id="addSetMeal"  parameterType="Setmeal" useGeneratedKeys="true" keyProperty="id">
+        insert into setmeal
+        values (null,
+                #{categoryId},
+                #{name},
+                #{price},
+                #{status},
+                #{description},
+                #{image},
+                #{createTime},
+                #{updateTime},
+                #{createUser},
+                #{updateUser})
+    </insert>
+
+
+    <!--分页查询-->
+    <select id="pageQuery" resultType="com.sky.vo.SetmealVO">
+        select s.id,
+               s.name,
+               s.price,
+               s.status,
+               s.description,
+               s.image,
+               s.create_time,
+               s.update_time,
+               s.create_user,
+               s.update_user,
+               c.name as "categoryName"
+        from setmeal s,
+             category c
+        where s.category_id = c.id
+        order by category_id
+    </select>
+
+    <!--修改-->
+    <update id="update">
+        update setmeal
+        <set>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test=" name != null">name = #{name},</if>
+            <if test=" price != null">price =#{price},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test=" description!= null">description = #{description},</if>
+            <if test=" image!= null">image = #{image},</if>
+            <if test=" createTime!= null">create_time = #{createTime},</if>
+            <if test=" updateTime!= null">update_time = #{updateTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test=" updateUser!= null">update_user = #{updateUser}</if>
+        </set>
+        where id = #{id}
+    </update>
+
 </mapper>

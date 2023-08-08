@@ -9,4 +9,25 @@
             #{id}
         </foreach>
     </select>
+
+
+    <!--添加菜品与套餐的关系-->
+    <insert id="addSetmealDish">
+        insert into setmeal_dish
+        values (null, #{setmealId}, #{dishId}, #{name}, #{price}, #{copies})
+    </insert>
+
+    <!--修改-->
+    <update id="update">
+        update setmeal_dish
+        <set>
+            <if test=" dishId != null">dish_id = #{dishId},</if>
+            <if test="name  != null">name = #{name},</if>
+            <if test="  price!= null">price = #{price},</if>
+            <if test=" copies != null">copies = #{copies}</if>
+        </set>
+        where setmeal_id = #{setmealId}
+
+
+    </update>
 </mapper>

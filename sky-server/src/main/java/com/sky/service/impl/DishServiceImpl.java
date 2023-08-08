@@ -183,4 +183,28 @@ public class DishServiceImpl implements DishService {
 
         log.info("口味:    {}",flavors);
     }
+
+    /**
+     * 菜品起售，停售
+     * @param status
+     * @param id
+     */
+
+    @Override
+    public void dishStartStop(Integer status, Long id) {
+        Dish dish = new Dish();
+        dish.setId(id);
+        dish.setStatus(status);
+
+        dishMapper.putByIdDish(dish);
+    }
+
+    /**
+     *根据菜品类型查询
+     */
+    @Override
+    public List<Dish> getByCategoryId(Long categoryId) {
+
+        return dishMapper.getByCategoryId(categoryId);
+    }
 }
