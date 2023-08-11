@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(tags = "菜品分类")
 @Slf4j
-@RestController
+@RestController("adminCategoryController")
 @RequestMapping("/admin/category")
 public class CategoryController {
 
@@ -116,6 +116,7 @@ public class CategoryController {
     @ApiOperation("根据类型查询分类")
     public Result<List<Category>> getById(Integer type){
 
+        System.out.println(type);
         List<Category> list = categoryService.getById(type);
 
         return Result.success(list);

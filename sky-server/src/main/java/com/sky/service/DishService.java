@@ -48,8 +48,11 @@ public interface DishService {
      */
     void dishStartStop(Integer status, Long id);
     /**
-     *根据菜品类型查询
+     * 根据菜品类型查询
      */
 
     List<Dish>  getByCategoryId(Long categoryId);
+
+
+    List<DishVO> listWithFlavor(Dish dish);
 }

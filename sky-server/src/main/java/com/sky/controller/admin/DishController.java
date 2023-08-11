@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/admin/dish")
@@ -22,7 +24,10 @@ import java.util.List;
 public class DishController {
 
     @Autowired
-    DishService dishService;
+    private DishService dishService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 菜品分页查询
@@ -52,6 +57,11 @@ public class DishController {
 
         dishService.andDish(dishDTO);
 
+
+        // 清理缓存数据
+        String key = "dish_" + dishDTO.getCategoryId();
+        redisTemplate.delete(key);
+
         return Result.success();
     }
 
@@ -67,6 +77,9 @@ public class DishController {
         log.info("删除的id ：  {} ", ids);
 
         dishService.deleteAllIsOneDish(ids);
+
+        // 删除所有缓存
+        redisTemplate.delete( redisTemplate.keys("*"));
         return Result.success();
     }
 
@@ -96,6 +109,8 @@ public class DishController {
 
         dishService.putByIdDish(dishDTO);
 
+        // 删除缓存
+        redisTemplate.delete( redisTemplate.keys("*"));
         return Result.success();
     }
 
@@ -115,20 +130,18 @@ public class DishController {
     }
 
     /**
-     *根据菜品类型查询
+     * 根据菜品类型查询
      */
 
     @GetMapping("/list")
     @ApiOperation("根据菜品类型查询")
-    public Result<List<Dish>> getByCategoryId(Long categoryId){
-        log.info("菜品分类id  : {}",categoryId);
+    public Result<List<Dish>> getByCategoryId(Long categoryId) {
+        log.info("菜品分类id  : {}", categoryId);
 
-        List<Dish> list =  dishService.getByCategoryId(categoryId);
+        List<Dish> list = dishService.getByCategoryId(categoryId);
 
         return Result.success(list);
     }
-
-
 
 
 }
