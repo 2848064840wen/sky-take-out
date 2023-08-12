@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ShoppingCartMapper">
+
+    <!--删除数据-->
+    <delete id="delete">
+        delete from shopping_cart
+        <where>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="id != null ">and id = #{id}</if>
+            <if test="name != null ">and name = #{name}</if>
+            <if test="dishId != null and dishId != 0 ">and id= #{dishId}</if>
+            <if test="setmealId != null and setmealId != 0 ">and setmeal_id = #{setmealId}</if>
+            <if test="number != null ">and number = #{number}</if>
+            <if test="amount != null ">and amount= #{amount}</if>
+        </where>
+    </delete>
+
+
+    <!--添加-->
+    <insert id="inster" useGeneratedKeys="true" keyProperty="id">
+        insert into shopping_cart
+        values (null,
+                #{name},
+                #{image},
+                #{userId},
+                #{dishId},
+                #{setmealId},
+                #{dishFlavor},
+                #{number},
+                #{amount},
+                #{createTime})
+    </insert>
+
+    <!--修改-->
+    <update id="update">
+        update shopping_cart
+        <set>
+            <if test=" name != null ">name = #{name},</if>
+            <if test=" image != null ">image = #{image},</if>
+            <if test=" userId != null ">user_id = #{userId},</if>
+            <if test=" setmealId != 0 and setmealId != null ">setmeal_id = #{setmealId},</if>
+            <if test=" dishFlavor != null ">dish_flavor = #{dishFlavor},</if>
+            <if test=" number != null ">number = #{number},</if>
+            <if test=" amount != null ">amount = #{amount},</if>
+            <if test=" createTime != null ">create_time = #{createTime}</if>
+        </set>
+        where id = #{dishId}
+    </update>
+
+
+    <!--查询-->
+    <select id="getCommodity" resultType="com.sky.entity.ShoppingCart">
+        select * from shopping_cart
+        <where>
+
+            <if test="dishId != null">and id = #{dishId}</if>
+            <if test="userId != null">and user_id = #{userId}</if>
+            <if test="setmealId != null and setmealId != 0">and setmeal_id = #{setmealId}</if>
+        </where>
+    </select>
+
+</mapper>
