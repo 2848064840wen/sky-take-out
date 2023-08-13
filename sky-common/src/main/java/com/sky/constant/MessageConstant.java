@@ -5,6 +5,9 @@ package com.sky.constant;
  */
 public class MessageConstant {
 
+
+    public static final String ORDER_CANCELLATION_FAILED = "订单取消失败";
+    public static final String REFUND_FAILURE = "退款失败";
     public static final String PASSWORD_ERROR = "密码错误";
     public static final String ACCOUNT_NOT_FOUND = "账号不存在";
     public static final String ACCOUNT_LOCKED = "账号被锁定";
@@ -26,5 +29,7 @@ public class MessageConstant {
     public static final String DISH_BE_RELATED_BY_SETMEAL = "当前菜品关联了套餐,不能删除";
     public static final String ORDER_STATUS_ERROR = "订单状态错误";
     public static final String ORDER_NOT_FOUND = "订单不存在";
+
+    public static final String PLEASE_CONTACT_THE_MERCHANT = "请联系商家";
 
 }

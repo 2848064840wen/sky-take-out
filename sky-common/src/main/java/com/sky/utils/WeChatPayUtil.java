@@ -42,14 +42,14 @@ public class WeChatPayUtil {
     public static final String REFUNDS = "https://api.mch.weixin.qq.com/v3/refund/domestic/refunds";
 
     @Autowired
-    private WeChatProperties weChatProperties;
+    private static WeChatProperties weChatProperties;
 
     /**
      * 获取调用微信接口的客户端工具对象
      *
      * @return
      */
-    private CloseableHttpClient getClient() {
+    private static CloseableHttpClient getClient() {
         PrivateKey merchantPrivateKey = null;
         try {
             //merchantPrivateKey商户API私钥，如何加载商户API私钥请看常见问题
@@ -79,7 +79,7 @@ public class WeChatPayUtil {
      * @param body
      * @return
      */
-    private String post(String url, String body) throws Exception {
+    private static String post(String url, String body) throws Exception {
         CloseableHttpClient httpClient = getClient();
 
         HttpPost httpPost = new HttpPost(url);
@@ -131,7 +131,7 @@ public class WeChatPayUtil {
      * @param openid      微信用户的openid
      * @return
      */
-    private String jsapi(String orderNum, BigDecimal total, String description, String openid) throws Exception {
+    private static String jsapi(String orderNum, BigDecimal total, String description, String openid) throws Exception {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("appid", weChatProperties.getAppid());
         jsonObject.put("mchid", weChatProperties.getMchid());
@@ -163,7 +163,7 @@ public class WeChatPayUtil {
      * @param openid      微信用户的openid
      * @return
      */
-    public JSONObject pay(String orderNum, BigDecimal total, String description, String openid) throws Exception {
+    public static JSONObject pay(String orderNum, BigDecimal total, String description, String openid) throws Exception {
         //统一下单，生成预支付交易单
         String bodyAsString = jsapi(orderNum, total, description, openid);
         //解析返回结果

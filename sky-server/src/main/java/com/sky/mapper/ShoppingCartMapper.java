@@ -18,8 +18,6 @@ public interface ShoppingCartMapper {
     // 添加
     void inster(ShoppingCart shoppingCart);
 
-
-
     // 条件删除
     void delete(ShoppingCart shoppingCart);
 

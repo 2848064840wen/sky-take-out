@@ -10,9 +10,12 @@ import org.apache.ibatis.annotations.Select;
 public interface UserMapper {
 
     // 根据openid获取用户
-    @Select("select * from  user where openid = #{openid}")
+    @Select("select * from  user where openid = #{openid} ")
     User getByOpenidUser(String openid);
 
     // 添加用户
     void addUser(User user);
+
+    @Select("select * from user where id = #{userId}")
+    User getById(Long userId);
 }
