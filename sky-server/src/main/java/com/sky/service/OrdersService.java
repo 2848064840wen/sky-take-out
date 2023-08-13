@@ -100,4 +100,7 @@ public interface OrdersService {
 
     void completeAnOrder(Long id);
 
+    // 催单
+    void reminderOrder(Long id);
+
 }

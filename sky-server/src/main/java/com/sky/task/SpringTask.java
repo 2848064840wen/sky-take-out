@@ -11,7 +11,7 @@ import java.util.Date;
  *
  */
 
-@Component
+//@Component
 @Slf4j
 public class SpringTask {
 

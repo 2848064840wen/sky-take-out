@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController("userOrdersController")
 @RequestMapping("/user/order")
@@ -118,6 +117,15 @@ public class OrdersController {
     @ApiOperation("再来一单")
     public Result oneMoreOrder(@PathVariable Long id){
         ordersService.oneMoreOrder(id);
+        return Result.success();
+    }
+
+
+    @GetMapping("/reminder/{id}")
+    public Result reminderOrder(@PathVariable Long  id){
+
+        ordersService.reminderOrder(id);
+
         return Result.success();
     }
 }
