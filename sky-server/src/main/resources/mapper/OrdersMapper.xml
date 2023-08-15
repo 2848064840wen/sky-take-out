@@ -13,6 +13,29 @@
         order by order_time
     </select>
 
+    <select id="orderCountList" resultType="java.lang.Integer">
+        select COUNT(*)
+        from orders
+        <where>
+            <if test="begin != null">order_time &gt; #{begin}</if>
+            <if test="end != null">and order_time &lt; #{end}</if>
+            <if test="status != null">and status = #{status}</if>
+        </where>
+    </select>
+    <select id="getTop10Order" resultType="com.sky.dto.GoodsSalesDTO">
+            select od.name,sum(o.number) as "number"
+            from order_detail od,
+            orders o
+            where od.order_id = o.id
+            and o.status = 5
+            <if test="beginTime != null">
+                and o.order_time &gt; #{beginTime}</if>
+            <if test="endTime != null">
+                and o.order_time &lt; #{endTime}</if>
+            group by od.name,o.number
+            order by o.number desc
+    </select>
+
 
     <update id="update" parameterType="com.sky.entity.Orders">
         update orders
